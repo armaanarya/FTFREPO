@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   Financing the Future — design tokens
+   Every contrast ratio below was computed, not estimated. Ratios noted inline
+   are against #FFFFFF unless stated otherwise. See docs/DESIGN-SYSTEM.md.
+   ========================================================================== */
+
+:root {
+  /* --- Green ramp -------------------------------------------------------- */
+  /* IMPORTANT: --green-brand is the logo green. At 2.78:1 it FAILS WCAG AA for
+     text. It is decorative only — logo, illustration fills, chart marks with a
+     non-color redundancy. Never set it as a text color on a light surface and
+     never use it as a CTA background under white text.
+     --green-cta (5.02:1 both directions) is the only green that carries text. */
+  --green-brand:  #4caf50;  /* decorative only — 2.78:1 */
+  --green-900:    #0b3d20;  /* 13.4:1 — display headings */
+  --green-800:    #14532d;  /*  9.1:1 — headings, green body text */
+  --green-cta:    #15803d;  /*  5.0:1 — CTA bg w/ white text, and green text */
+  --green-600:    #1a9748;  /*  3.8:1 — large text / UI boundaries only */
+  --green-100:    #dcf2e3;  /* tinted surface */
+  --green-50:     #f2faf5;  /* faintest surface */
+
+  /* --- Beige / warm neutral ---------------------------------------------- */
+  --beige-50:     #faf7f0;  /* alternating section background */
+  --beige-100:    #f3ede1;  /* raised warm surface */
+  --beige-200:    #e7decb;  /* border on beige surfaces */
+
+  /* --- Ink --------------------------------------------------------------- */
+  --ink-900:      #111111;  /* 18.9:1 — headings */
+  --ink-700:      #2e2e2e;  /* 13.6:1 */
+  --ink-600:      #4a4a4a;  /*  8.9:1 — body copy */
+  --ink-500:      #6b6b6b;  /*  5.3:1 — muted copy; still AA. Do not go lighter. */
+
+  /* --- Surfaces & lines --------------------------------------------------- */
+  --surface:      #ffffff;
+  --surface-alt:  var(--beige-50);
+  --border:       #e2e0da;  /* decorative dividers / card edges only (1.3:1) */
+  --border-strong:#8e887a;  /* 3.5:1 — REQUIRED for form control borders (WCAG 1.4.11) */
+
+  /* --- Status ------------------------------------------------------------ */
+  /* Each status is always paired with a text label and an icon — never
+     communicated by color alone. */
+  --status-new:        #4a4a4a;
+  --status-scheduled:  #1d4ed8;  /* 6.7:1 */
+  --status-onboarded:  #92400e;  /* 7.1:1 */
+  --status-active:     var(--green-cta);
+  --error:             #b42318;  /* 6.6:1 */
+  --error-surface:     #fef3f2;
+  --success:           var(--green-cta);
+  --success-surface:   var(--green-50);
+
+  /* --- Elevation --------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(17, 17, 17, 0.05);
+  --shadow-md: 0 2px 8px rgba(17, 17, 17, 0.06), 0 1px 2px rgba(17, 17, 17, 0.04);
+  --shadow-lg: 0 8px 24px rgba(17, 17, 17, 0.08);
+
+  /* --- Geometry ----------------------------------------------------------- */
+  /* The nav is deliberately square (radius 0) — it reads as a professional
+     dashboard chrome. Content cards are rounded. This contrast is intentional. */
+  --radius-nav:   0px;
+  --radius-card:  12px;
+  --radius-ctl:   8px;
+  --radius-chip:  6px;
+
+  --nav-h: 64px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Sticky nav must not cover the target of an in-page anchor. */
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink-600);
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-manrope), 'Manrope', system-ui, sans-serif;
+  color: var(--ink-900);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+a { color: inherit; text-decoration: none; }
+
+::selection {
+  background: var(--green-100);
+  color: var(--green-900);
+}
+
+/* --- Focus ---------------------------------------------------------------
+   A single global focus style. :focus-visible only, so mouse users don't see
+   rings, but keyboard users always do. Never remove this. The 2px offset plus
+   white "spacer" keeps the ring legible on both white and green surfaces. */
+:focus-visible {
+  outline: 3px solid var(--green-cta);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+/* On a green CTA the green ring would vanish — invert it there. */
+.on-green:focus-visible {
+  outline-color: #ffffff;
+}
+
+/* --- Skip link ------------------------------------------------------------ */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--green-cta);
+  color: #ffffff;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-ctl) 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* --- Motion --------------------------------------------------------------
+   The nav is static by design. What little motion exists elsewhere (fade-ups,
+   hover transitions) is disabled wholesale for users who ask for that. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Tabular figures keep admin tables and stat rows from shifting as values
+   change — Inter ships proper tnum. */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Screen-reader-only text that is still focusable if it needs to be. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

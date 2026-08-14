@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 108" role="img" aria-label="Financing the Future">
+  <title>Financing the Future</title>
+  <!-- Growth arrow: rises left to right over the coin stacks. -->
+  <g fill="none" stroke="#22312a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 76 L30 52 L44 62 L74 24" />
+    <path d="M72.4 37.6 L76 22 L60.7 26.6" />
+  </g>
+
+  <!-- Coin stacks, short to tall. Each is a silhouette + a lighter top face +
+       incised division arcs, so the outline never crosses the body. -->
+  <g stroke="#22312a" stroke-width="3" stroke-linejoin="round">
+    <!-- Stack 1 — 4 coins -->
+    <path d="M7 58 L7 94 A19 6.5 0 0 0 45 94 L45 58 A19 6.5 0 0 0 7 58 Z" fill="#4caf50" />
+    <ellipse cx="26" cy="58" rx="19" ry="6.5" fill="#7bd07f" />
+    <g fill="none" stroke-width="2.5">
+      <path d="M7 67 A19 6.5 0 0 0 45 67" />
+      <path d="M7 76 A19 6.5 0 0 0 45 76" />
+      <path d="M7 85 A19 6.5 0 0 0 45 85" />
+    </g>
+
+    <!-- Stack 2 — 5 coins -->
+    <path d="M46 49 L46 94 A19 6.5 0 0 0 84 94 L84 49 A19 6.5 0 0 0 46 49 Z" fill="#4caf50" />
+    <ellipse cx="65" cy="49" rx="19" ry="6.5" fill="#7bd07f" />
+    <g fill="none" stroke-width="2.5">
+      <path d="M46 58 A19 6.5 0 0 0 84 58" />
+      <path d="M46 67 A19 6.5 0 0 0 84 67" />
+      <path d="M46 76 A19 6.5 0 0 0 84 76" />
+      <path d="M46 85 A19 6.5 0 0 0 84 85" />
+    </g>
+
+    <!-- Stack 3 — 6 coins -->
+    <path d="M85 40 L85 94 A19 6.5 0 0 0 123 94 L123 40 A19 6.5 0 0 0 85 40 Z" fill="#4caf50" />
+    <ellipse cx="104" cy="40" rx="19" ry="6.5" fill="#7bd07f" />
+    <g fill="none" stroke-width="2.5">
+      <path d="M85 49 A19 6.5 0 0 0 123 49" />
+      <path d="M85 58 A19 6.5 0 0 0 123 58" />
+      <path d="M85 67 A19 6.5 0 0 0 123 67" />
+      <path d="M85 76 A19 6.5 0 0 0 123 76" />
+      <path d="M85 85 A19 6.5 0 0 0 123 85" />
+    </g>
+  </g>
+</svg>
