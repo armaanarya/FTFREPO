@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { DemoBookingWithSlot } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -23,6 +23,16 @@ export function BookingCard({
   const [cancelling, setCancelling] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const confirmRef = useRef<HTMLButtonElement>(null)
+
+  /**
+   * Entering the confirm state unmounts the button the user just activated, so
+   * focus would fall back to <body>. Move it onto the confirm control instead
+   * (WCAG 2.4.3).
+   */
+  useEffect(() => {
+    if (confirming) confirmRef.current?.focus()
+  }, [confirming])
 
   const slot = booking.demo_slots
   if (!slot) return null
@@ -86,7 +96,7 @@ export function BookingCard({
               <p className="text-sm font-semibold text-ink-900">
                 Cancel this call? The time goes back into the pool.
               </p>
-              <Button variant="secondary" onClick={cancel} disabled={cancelling}>
+              <Button ref={confirmRef} variant="secondary" onClick={cancel} disabled={cancelling}>
                 {cancelling ? 'Cancelling…' : 'Yes, cancel it'}
               </Button>
               <Button variant="ghost" onClick={() => setConfirming(false)} disabled={cancelling}>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Partner } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -52,6 +52,17 @@ export function PartnerManager({ partners }: { partners: Partner[] }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
+
+  const confirmRef = useRef<HTMLButtonElement>(null)
+
+  /**
+   * The inline confirmation replaces the button the user just activated, so
+   * focus would fall back to <body>. Move it onto the confirm control
+   * (WCAG 2.4.3).
+   */
+  useEffect(() => {
+    if (confirmingId) confirmRef.current?.focus()
+  }, [confirmingId])
 
   function set<K extends keyof Draft>(key: K, value: Draft[K]) {
     setDraft((d) => (d ? { ...d, [key]: value } : d))
@@ -253,7 +264,7 @@ export function PartnerManager({ partners }: { partners: Partner[] }) {
                 <span className="text-sm font-semibold text-ink-900">
                   Delete {partner.name} permanently?
                 </span>
-                <Button variant="secondary" disabled={busy} onClick={() => void remove(partner.id)}>
+                <Button ref={confirmRef} variant="secondary" disabled={busy} onClick={() => void remove(partner.id)}>
                   Yes, delete
                 </Button>
                 <Button variant="ghost" disabled={busy} onClick={() => setConfirmingId(null)}>

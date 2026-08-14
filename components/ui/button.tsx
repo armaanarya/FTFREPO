@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
@@ -32,14 +33,17 @@ function classes(variant: Variant, size: Size, className?: string) {
   )
 }
 
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  className,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: Size }) {
-  return <button className={classes(variant, size, className)} {...props} />
-}
+/**
+ * forwardRef so callers can move focus onto a button — needed wherever an
+ * inline confirmation replaces the control the user just activated, which would
+ * otherwise drop focus to <body>.
+ */
+export const Button = forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: Size }
+>(function Button({ variant = 'primary', size = 'md', className, ...props }, ref) {
+  return <button ref={ref} className={classes(variant, size, className)} {...props} />
+})
 
 export function ButtonLink({
   href,

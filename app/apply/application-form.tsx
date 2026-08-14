@@ -87,6 +87,25 @@ export function ApplicationForm({
     setErrors((e) => ({ ...e, [key]: undefined }))
   }
 
+  /**
+   * Move focus to the first field that failed validation.
+   *
+   * Without this, a failed "Continue" leaves focus on the button and the error
+   * text is rendered where a screen-reader user will not encounter it — the
+   * aria-describedby wiring only pays off once focus reaches the input
+   * (WCAG 3.3.1).
+   */
+  function focusFirstError(fieldErrors: Errors) {
+    const firstKey = (Object.keys(fieldErrors) as (keyof Draft)[]).find(
+      (k) => fieldErrors[k],
+    )
+    if (!firstKey) return
+    requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>(`[data-field="${firstKey}"]`)
+      el?.focus()
+    })
+  }
+
   function validateStep(index: number): boolean {
     const next: Errors = {}
     if (index === 0) {
@@ -104,7 +123,11 @@ export function ApplicationForm({
       next.team_details = 'Tell us who else is involved.'
     }
     setErrors(next)
-    return Object.keys(next).length === 0
+    if (Object.keys(next).length > 0) {
+      focusFirstError(next)
+      return false
+    }
+    return true
   }
 
   function goTo(index: number) {
@@ -302,6 +325,7 @@ export function ApplicationForm({
               <TextField
                 label="School or organization"
                 required
+                data-field="organization"
                 value={draft.organization}
                 onChange={(e) => set('organization', e.target.value)}
                 error={errors.organization}
@@ -312,6 +336,7 @@ export function ApplicationForm({
                 <TextField
                   label="City"
                   required
+                  data-field="city"
                   value={draft.city}
                   onChange={(e) => set('city', e.target.value)}
                   error={errors.city}
@@ -321,6 +346,7 @@ export function ApplicationForm({
                 <TextField
                   label="Country"
                   required
+                  data-field="country"
                   list="ftf-countries"
                   value={draft.country}
                   onChange={(e) => set('country', e.target.value)}
@@ -338,6 +364,7 @@ export function ApplicationForm({
               <TextField
                 label="Grade or role"
                 required
+                data-field="grade_or_role"
                 value={draft.grade_or_role}
                 onChange={(e) => set('grade_or_role', e.target.value)}
                 error={errors.grade_or_role}
@@ -351,6 +378,7 @@ export function ApplicationForm({
             <TextArea
               label="Why do you want to start a chapter?"
               required
+              data-field="motivation"
               value={draft.motivation}
               onChange={(e) => set('motivation', e.target.value)}
               error={errors.motivation}
@@ -384,6 +412,7 @@ export function ApplicationForm({
                 <TextArea
                   label="Who else is involved?"
                   required
+                  data-field="team_details"
                   value={draft.team_details}
                   onChange={(e) => set('team_details', e.target.value)}
                   error={errors.team_details}

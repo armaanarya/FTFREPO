@@ -41,7 +41,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <SiteNav />
-        <main id="main-content">{children}</main>
+        {/* tabIndex={-1} so the skip link actually moves FOCUS here, not just
+            the viewport — several browsers scroll without focusing otherwise. */}
+        <main id="main-content" tabIndex={-1} className="focus-visible:outline-none">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>

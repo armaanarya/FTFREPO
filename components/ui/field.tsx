@@ -17,6 +17,12 @@ type BaseProps = {
   hint?: string
   error?: string | null
   required?: boolean
+  /**
+   * Stable hook for focus management. TypeScript only allows arbitrary `data-*`
+   * props on intrinsic elements, so a custom component has to declare it. Not
+   * destructured below — it flows through `...props` onto the real control.
+   */
+  'data-field'?: string
 }
 
 function Wrapper({

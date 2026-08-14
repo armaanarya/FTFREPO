@@ -174,8 +174,12 @@ export function SlotPicker({
                       key={slot.id}
                       className={cn(
                         'flex min-h-[44px] cursor-pointer items-center rounded-ctl border px-4 text-sm font-semibold transition-colors duration-150',
+                        // The radio itself is visually hidden, so the LABEL has to
+                        // carry the focus indicator — otherwise a keyboard user
+                        // tabbing through times sees nothing at all (WCAG 2.4.7).
+                        'has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-green-cta',
                         selected
-                          ? 'border-green-cta bg-green-cta text-white'
+                          ? 'border-green-cta bg-green-cta text-white has-[:focus-visible]:outline-ink-900'
                           : 'border-line-strong bg-white text-ink-900 hover:bg-beige-50',
                       )}
                     >

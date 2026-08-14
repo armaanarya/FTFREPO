@@ -58,15 +58,19 @@ export default async function ApplyPage() {
         Four short steps. Your answers save as you go, so you can leave and come back. When you
         are done you will be able to book your intro call right away.
       </p>
+      {/* Points at the PUBLIC how-it-works section, not /playbook. The playbook
+          is locked until you apply, so linking there from here created a
+          circular dead end: apply says "read the playbook first", playbook says
+          "apply first". */}
       <p className="mt-3 text-sm text-ink-500">
         Not sure yet?{' '}
         <Link
-          href="/playbook"
+          href="/#how-it-works"
           className="font-semibold text-green-cta underline underline-offset-2 hover:text-green-800"
         >
-          Read what running a chapter involves
+          See the four steps
         </Link>{' '}
-        first.
+        first — the full launch playbook unlocks as soon as you apply.
       </p>
 
       <div className="mt-10">

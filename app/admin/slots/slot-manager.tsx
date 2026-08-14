@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { DemoSlot } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -13,6 +13,17 @@ export function SlotManager({ slots }: { slots: DemoSlot[] }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
+
+  const confirmRef = useRef<HTMLButtonElement>(null)
+
+  /**
+   * The inline confirmation replaces the button the user just activated, so
+   * focus would fall back to <body>. Move it onto the confirm control
+   * (WCAG 2.4.3).
+   */
+  useEffect(() => {
+    if (confirmingId) confirmRef.current?.focus()
+  }, [confirmingId])
 
   async function addSlot(event: React.FormEvent) {
     event.preventDefault()
@@ -154,7 +165,7 @@ export function SlotManager({ slots }: { slots: DemoSlot[] }) {
                 {confirmingId === slot.id ? (
                   <span className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-semibold text-ink-900">Remove this slot?</span>
-                    <Button variant="secondary" disabled={busy} onClick={() => void removeSlot(slot.id)}>
+                    <Button ref={confirmRef} variant="secondary" disabled={busy} onClick={() => void removeSlot(slot.id)}>
                       Yes, remove
                     </Button>
                     <Button variant="ghost" disabled={busy} onClick={() => setConfirmingId(null)}>

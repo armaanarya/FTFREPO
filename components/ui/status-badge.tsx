@@ -10,10 +10,12 @@ import { cn } from '@/lib/utils'
  * forced-colours mode, or to someone who cannot distinguish the hues.
  */
 const STYLES: Record<ApplicationStatus, string> = {
-  new: 'bg-beige-100 text-ink-700 border-line-strong',
-  demo_scheduled: 'bg-[#eff4ff] text-[color:var(--status-scheduled)] border-[color:var(--status-scheduled)]',
-  onboarded: 'bg-[#fffaeb] text-[color:var(--status-onboarded)] border-[color:var(--status-onboarded)]',
-  active_chapter: 'bg-green-50 text-green-cta border-green-cta',
+  new: 'bg-[color:var(--status-new-surface)] text-ink-700 border-line-strong',
+  demo_scheduled:
+    'bg-[color:var(--status-scheduled-surface)] text-[color:var(--status-scheduled)] border-[color:var(--status-scheduled)]',
+  onboarded:
+    'bg-[color:var(--status-onboarded-surface)] text-[color:var(--status-onboarded)] border-[color:var(--status-onboarded)]',
+  active_chapter: 'bg-[color:var(--status-active-surface)] text-green-cta border-green-cta',
 }
 
 function Icon({ status }: { status: ApplicationStatus }) {

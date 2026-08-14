@@ -33,6 +33,7 @@ export function NavBar({ profile }: { profile: Profile | null }) {
   const navRef = useRef<HTMLElement>(null)
   const triggerRefs = useRef<(HTMLButtonElement | null)[]>([])
   const menuRefs = useRef<(HTMLDivElement | null)[]>([])
+  const mobileToggleRef = useRef<HTMLButtonElement>(null)
   const baseId = useId()
 
   const close = useCallback(() => setOpenIndex(null), [])
@@ -43,6 +44,20 @@ export function NavBar({ profile }: { profile: Profile | null }) {
     setOpenIndex(null)
     setMobileOpen(false)
   }, [pathname])
+
+  // Escape closes the mobile menu and returns focus to the toggle, so a keyboard
+  // user is not stranded inside an open panel.
+  useEffect(() => {
+    if (!mobileOpen) return
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setMobileOpen(false)
+        mobileToggleRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [mobileOpen])
 
   // Click outside closes the dropdown.
   useEffect(() => {
@@ -146,8 +161,18 @@ export function NavBar({ profile }: { profile: Profile | null }) {
           className="flex shrink-0 items-center gap-2.5 pr-3 sm:pr-6"
           aria-label="Financing the Future — home"
         >
-          <Image src="/ftf-mark.svg" alt="" width={40} height={33} priority className="h-[30px] w-auto" />
-          <span className="hidden font-display text-[15px] font-extrabold leading-[1.1] tracking-tight text-green-800 sm:block">
+          <Image
+            src="/ftf-mark.svg"
+            alt=""
+            width={40}
+            height={33}
+            priority
+            className="h-[26px] w-auto sm:h-[30px]"
+          />
+          {/* Always visible. Hiding the wordmark on small screens left the chrome
+              with nothing but an unlabelled coin icon — a visitor arriving from a
+              shared link had no way to see whose site this is. */}
+          <span className="font-display text-[13px] font-extrabold leading-[1.1] tracking-tight text-green-800 sm:text-[15px]">
             Financing
             <br />
             the Future
@@ -196,7 +221,10 @@ export function NavBar({ profile }: { profile: Profile | null }) {
                     triggerRefs.current[index] = el
                   }}
                   aria-expanded={isOpen}
-                  aria-haspopup="true"
+                  // No aria-haspopup: this is a disclosure containing a list of
+                  // links, not a role="menu" with menuitems. Claiming "menu"
+                  // makes a screen reader announce semantics the panel does not
+                  // actually implement (WCAG 4.1.2).
                   aria-controls={menuId}
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   onKeyDown={(e) => onTriggerKeyDown(e, index)}
@@ -297,6 +325,7 @@ export function NavBar({ profile }: { profile: Profile | null }) {
           {/* Mobile toggle */}
           <button
             type="button"
+            ref={mobileToggleRef}
             onClick={() => setMobileOpen((v) => !v)}
             aria-expanded={mobileOpen}
             aria-controls={`${baseId}-mobile`}

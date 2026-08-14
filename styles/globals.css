@@ -38,15 +38,29 @@
   --surface:      #ffffff;
   --surface-alt:  var(--beige-50);
   --border:       #e2e0da;  /* decorative dividers / card edges only (1.3:1) */
-  --border-strong:#8e887a;  /* 3.5:1 — REQUIRED for form control borders (WCAG 1.4.11) */
+  /* REQUIRED for form control borders (WCAG 1.4.11 needs 3:1).
+     4.44:1 on white, 4.15:1 on beige-50, 3.81:1 on beige-100 — the worst
+     surface still clears the bar by 27%. The previous value measured 3.03:1 on
+     beige-100, which passed with no margin at all; any future tint of the warm
+     background would have silently broken it. */
+  --border-strong:#7e7768;
 
   /* --- Status ------------------------------------------------------------ */
   /* Each status is always paired with a text label and an icon — never
      communicated by color alone. */
   --status-new:        #4a4a4a;
-  --status-scheduled:  #1d4ed8;  /* 6.7:1 */
-  --status-onboarded:  #92400e;  /* 7.1:1 */
+  --status-scheduled:  #1d4ed8;  /* 6.7:1 on white, 6.1:1 on its own surface */
+  --status-onboarded:  #92400e;  /* 7.1:1 on white, 6.8:1 on its own surface */
   --status-active:     var(--green-cta);
+  /* Surface tints for each status. Tokenised so no component carries a raw hex. */
+  --status-new-surface:       var(--beige-100);
+  --status-scheduled-surface: #eff4ff;
+  --status-onboarded-surface: #fffaeb;
+  --status-active-surface:    var(--green-50);
+
+  /* Minimum interactive target (WCAG 2.5.5). Referenced rather than repeated so
+     the rule is stated once instead of as 13 separate arbitrary values. */
+  --tap: 44px;
   --error:             #b42318;  /* 6.6:1 */
   --error-surface:     #fef3f2;
   --success:           var(--green-cta);

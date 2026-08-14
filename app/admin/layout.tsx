@@ -36,7 +36,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {!hasServiceRole && (
         <p
           role="alert"
-          className="mt-6 rounded-ctl border border-[color:var(--status-onboarded)] bg-[#fffaeb] px-4 py-3 text-sm font-medium text-[color:var(--status-onboarded)]"
+          className="mt-6 rounded-ctl border border-[color:var(--status-onboarded)] bg-[color:var(--status-onboarded-surface)] px-4 py-3 text-sm font-medium text-[color:var(--status-onboarded)]"
         >
           <code>SUPABASE_SERVICE_ROLE_KEY</code> is not set, so admin data cannot be read or
           written. See <code>docs/SUPABASE-SETUP.md</code>.

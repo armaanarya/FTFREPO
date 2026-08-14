@@ -3,7 +3,7 @@ import { ButtonLink } from '@/components/ui/button'
 import { Section, SectionHeading } from '@/components/ui/section'
 import { PartnerSpotlight } from '@/components/site/partner-spotlight'
 import { getActiveChapterCount } from '@/lib/data'
-import { HOW_IT_WORKS, SITE, STATS } from '@/lib/site'
+import { COUNTRIES, HOW_IT_WORKS, SITE, STATS } from '@/lib/site'
 
 /**
  * Revalidate rather than force-dynamic: this page is public and cacheable, but
@@ -62,16 +62,58 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="hidden justify-self-center lg:block">
-            <Image
-              src="/ftf-mark.svg"
-              alt=""
-              width={132}
-              height={108}
-              priority
-              className="w-full max-w-[380px]"
-            />
-          </div>
+          {/* This column used to repeat the logo already sitting in the nav.
+              For the administrator audience it is the most valuable space on
+              the page, so it now answers the two questions they actually have:
+              what gets taught, and where this already runs. */}
+          <aside
+            aria-labelledby="hero-aside-heading"
+            className="rounded-card border border-beige-200 bg-beige-50 p-6 sm:p-8"
+          >
+            <div className="flex items-center gap-3">
+              <Image src="/ftf-mark.svg" alt="" width={132} height={108} priority className="h-11 w-auto" />
+              <h2 id="hero-aside-heading" className="font-display text-lg font-bold text-ink-900">
+                What chapters teach
+              </h2>
+            </div>
+
+            <ul className="mt-5 space-y-2.5">
+              {['Budgeting that survives a real month', 'Saving and setting goals', 'How credit works, and how it breaks', 'Planning for costs that are coming'].map(
+                (topic) => (
+                  <li key={topic} className="flex gap-2.5 text-ink-700">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      aria-hidden="true"
+                      className="mt-1 shrink-0 text-green-cta"
+                    >
+                      <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.8" />
+                      <path
+                        d="M6 10.5l2.5 2.5L14 7.5"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    {topic}
+                  </li>
+                ),
+              )}
+            </ul>
+
+            <div className="mt-6 border-t border-beige-200 pt-5">
+              <p className="font-display text-xs font-bold uppercase tracking-[0.08em] text-ink-500">
+                Running today in
+              </p>
+              <p className="mt-2 font-semibold text-ink-900">{COUNTRIES.join(' · ')}</p>
+              <p className="mt-3 text-sm text-ink-600">
+                Educational only. We do not give investment, tax, or legal advice.
+              </p>
+            </div>
+          </aside>
         </div>
       </section>
 
