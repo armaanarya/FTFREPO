@@ -27,7 +27,7 @@ Open <http://localhost:3200>.
 | `/` | Mission, impact, story, the two program formats, how it works |
 | `/get-started` | Program formats in depth, what we ask of founders, what we provide |
 | `/officers` | Chapter officer directory — empty until real officers are published |
-| `/contact` | Co-presidents with photos and direct email addresses |
+| `/contact` | Leadership with photos and direct email addresses |
 
 There is **no sign-in anywhere on this site.** Booking happens through Calendly; questions go
 to a real person's inbox.
@@ -54,7 +54,7 @@ Everything editable lives in plain TypeScript. No CMS, no admin panel.
 | --- | --- |
 | Org facts, impact stats, countries | [`lib/site.ts`](lib/site.ts) |
 | Calendly URL, program formats, expectations, what we provide | [`lib/program.ts`](lib/program.ts) |
-| Co-presidents and chapter officers | [`lib/people.ts`](lib/people.ts) |
+| Leadership and chapter officers | [`lib/people.ts`](lib/people.ts) |
 | Navigation | [`lib/nav.ts`](lib/nav.ts) |
 
 ### Leadership photos
@@ -86,7 +86,7 @@ Verified and hardcoded:
 - 7 years running
 - 4 countries — United States, Singapore, Vietnam, Spain
 - Founded at Valley Christian School; a program of Valley Christian Schools
-- Co-presidents Armaan Arya and Anay Sinhal, and their email addresses
+- Armaan Arya (President) and Anay Sinhal (Co-President), and their email addresses
 
 Deliberately absent until real values exist:
 

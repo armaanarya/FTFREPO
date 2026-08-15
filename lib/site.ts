@@ -16,7 +16,7 @@ export const SITE = {
   foundedAt: 'Valley Christian School',
 
   /**
-   * Contact. Both addresses are real and belong to the co-presidents — see
+   * Contact. Both addresses are real and belong to the program leadership — see
    * lib/people.ts, which is the source of truth for who is reachable where.
    * `linkedinUrl` stays null until the team supplies the real page URL; the
    * footer omits the link entirely rather than pointing somewhere dead.

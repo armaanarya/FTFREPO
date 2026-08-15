@@ -8,7 +8,7 @@ import { SITE } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Reach the co-presidents of the Financing the Future international program directly, or book a call.',
+    'Reach the president and co-president of the Financing the Future international program directly, or book a call.',
 }
 
 export default function ContactPage() {
@@ -29,9 +29,11 @@ export default function ContactPage() {
 
       {/* ------------------------------------------------------ Leadership */}
       <Section>
+        {/* Title stays role-neutral so it does not need editing whenever a
+            title changes — each person's role renders on their own card. */}
         <SectionHeading
           eyebrow="Leadership"
-          title="Co-Presidents"
+          title="Who runs the program"
           lede={`${SITE.name} international program`}
         />
 

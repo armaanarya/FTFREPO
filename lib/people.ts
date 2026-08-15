@@ -16,10 +16,10 @@ export type Person = {
 export const LEADERSHIP: Person[] = [
   {
     name: 'Armaan Arya',
-    role: 'Co-President',
+    role: 'President',
     email: 'armaanarya100@gmail.com',
     photo: '/people/armaan-arya.png',
-    bio: 'Co-leads the Financing the Future international program, working with chapter founders on curriculum, outreach, and getting new chapters off the ground.',
+    bio: 'Leads the Financing the Future international program, working with chapter founders on curriculum, outreach, and getting new chapters off the ground.',
   },
   {
     name: 'Anay Sinhal',

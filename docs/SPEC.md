@@ -24,7 +24,7 @@ listed here.**
 | Countries | 4 — United States, Singapore, Vietnam, Spain |
 | Parent org | Valley Christian Schools (vcs.net) |
 | Founded at | Valley Christian School |
-| Co-presidents | Armaan Arya · armaanarya100@gmail.com — Anay Sinhal · anay13366@gmail.com |
+| Leadership | Armaan Arya, President · armaanarya100@gmail.com — Anay Sinhal, Co-President · anay13366@gmail.com |
 | Booking | https://calendly.com/anay13366/30min |
 
 **Not verified, therefore absent from the product:**
@@ -71,7 +71,7 @@ evaluate when a student asks permission to run an outside program on campus.
 | `/` | Hero with VCS link, dual CTA, impact bar (300+ / 7 / 4), what chapters teach, our story, both program formats, four-step how-it-works |
 | `/get-started` | Formats in depth, the four founder responsibilities, the four things FTF provides, booking CTA ×2 |
 | `/officers` | Chapter officer directory — honest empty state; renders the real directory automatically once `CHAPTERS` is non-empty |
-| `/contact` | Co-presidents with photo, role, bio, direct email; booking CTA; organization statement |
+| `/contact` | Leadership with photo, role, bio, direct email; booking CTA; organization statement |
 
 ## 5. Requirements
 
@@ -102,8 +102,8 @@ access to the LinkedIn page for visibility · personalized social media graphics
 recruiting students.
 
 ### R6 — People
-- Armaan Arya and Anay Sinhal are listed as **Co-Presidents** of the international program,
-  with photos and direct email addresses.
+- Armaan Arya is listed as **President** and Anay Sinhal as **Co-President** of the
+  international program, each with a photo and a direct email address.
 - `Avatar` falls back to initials when a photo file is absent — never a stock portrait.
 
 ### R7 — Non-functional
