@@ -24,7 +24,7 @@ listed here.**
 | Countries | 4 — United States, Singapore, Vietnam, Spain |
 | Parent org | Valley Christian Schools (vcs.net) |
 | Founded at | Valley Christian School |
-| Leadership | Armaan Arya, President · armaanarya100@gmail.com — Anay Sinhal, Co-President · anay13366@gmail.com |
+| Leadership | Armaan Arya, President · armaanarya100@gmail.com — Anay Kalchuri, Co-President · anay13366@gmail.com |
 | Booking | https://calendly.com/anay13366/30min |
 
 **Not verified, therefore absent from the product:**
@@ -102,7 +102,7 @@ access to the LinkedIn page for visibility · personalized social media graphics
 recruiting students.
 
 ### R6 — People
-- Armaan Arya is listed as **President** and Anay Sinhal as **Co-President** of the
+- Armaan Arya is listed as **President** and Anay Kalchuri as **Co-President** of the
   international program, each with a photo and a direct email address.
 - `Avatar` falls back to initials when a photo file is absent — never a stock portrait.
 

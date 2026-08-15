@@ -22,10 +22,10 @@ export const LEADERSHIP: Person[] = [
     bio: 'Leads the Financing the Future international program, working with chapter founders on curriculum, outreach, and getting new chapters off the ground.',
   },
   {
-    name: 'Anay Sinhal',
+    name: 'Anay Kalchuri',
     role: 'Co-President',
     email: 'anay13366@gmail.com',
-    photo: '/people/anay.png',
+    photo: '/people/anay-kalchuri.png',
     bio: 'Co-leads the Financing the Future international program, running intro calls with prospective founders and supporting chapters once they launch.',
   },
 ]

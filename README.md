@@ -63,7 +63,7 @@ Save them as:
 
 ```
 public/people/armaan-arya.png
-public/people/anay.png
+public/people/anay-kalchuri.png
 ```
 
 Those exact paths are already referenced in `lib/people.ts`. Until the files exist, the
@@ -86,7 +86,7 @@ Verified and hardcoded:
 - 7 years running
 - 4 countries — United States, Singapore, Vietnam, Spain
 - Founded at Valley Christian School; a program of Valley Christian Schools
-- Armaan Arya (President) and Anay Sinhal (Co-President), and their email addresses
+- Armaan Arya (President) and Anay Kalchuri (Co-President), and their email addresses
 
 Deliberately absent until real values exist:
 
