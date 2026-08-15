@@ -1,16 +1,16 @@
 # Financing the Future
 
-The website and founder platform for **Financing the Future** — a student-led financial
-literacy program and a program of [Valley Christian Schools](https://vcs.net).
+The website for **Financing the Future** — a student-led financial literacy program and a
+program of [Valley Christian Schools](https://vcs.net).
 
-The site does three jobs: show what the program has actually done, recruit and onboard local
-chapter founders, and book intro calls.
+The site explains what the program is, makes clear what running a chapter involves, and gets
+interested students onto a call with us.
 
 ## Stack
 
 - Next.js 16 (App Router) · React 18 · TypeScript strict
 - Tailwind CSS 3 with CSS-variable design tokens
-- Supabase — Google OAuth + Postgres + row-level security
+- **No database, no authentication, no API routes.** Every page is statically rendered.
 
 ## Run locally
 
@@ -18,27 +18,63 @@ chapter founders, and book intro calls.
 npm install && npm run dev
 ```
 
-Open <http://localhost:3200>. The public site works with no configuration. For accounts,
-applications, and booking, follow [`docs/SUPABASE-SETUP.md`](docs/SUPABASE-SETUP.md).
+Open <http://localhost:3200>.
 
 ## Routes
 
-| Route | Access | Purpose |
-| --- | --- | --- |
-| `/` | Public | Mission, impact, story, spotlight, how it works |
-| `/signin` | Public | Google OAuth only |
-| `/apply` | Signed in | Four-step chapter founder application, ending in the booking step |
-| `/book` | Signed in | Slot picker with timezone handling |
-| `/playbook` | Applied or booked | Launch meeting agenda, action-item checklist, what FTF provides |
-| `/dashboard` | Signed in | Status, calls, checklist progress, single next action |
-| `/admin` | Admin only | Applications, calls, availability, spotlight CMS, editable content |
+| Route | Purpose |
+| --- | --- |
+| `/` | Mission, impact, story, the two program formats, how it works |
+| `/get-started` | Program formats in depth, what we ask of founders, what we provide |
+| `/officers` | Chapter officer directory — empty until real officers are published |
+| `/contact` | Co-presidents with photos and direct email addresses |
 
-## Documentation
+There is **no sign-in anywhere on this site.** Booking happens through Calendly; questions go
+to a real person's inbox.
 
-- [`docs/SPEC.md`](docs/SPEC.md) — the PRD: problem, goals, requirements, acceptance criteria
-- [`docs/SPRINT-PLAN.md`](docs/SPRINT-PLAN.md) — how the build was sequenced
-- [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md) — tokens, components, accessibility rules
-- [`docs/SUPABASE-SETUP.md`](docs/SUPABASE-SETUP.md) — database, OAuth, environment variables
+## Booking
+
+All "Book a call" buttons link to `CALENDLY_URL` in [`lib/program.ts`](lib/program.ts).
+
+It is a plain outbound link, not an embedded widget — deliberately. An embed would require
+loosening the CSP to allow third-party scripts and frames, and would set a Calendly cookie on
+every visitor who merely scrolled past it. A link only sends people to Calendly when they
+choose to go.
+
+Every booking CTA is accompanied by `SCHEDULING_NOTE`, which tells people that the published
+times are not the only options and that they can email us to arrange something else. That note
+is not decoration: chapters run across four countries and timezones, and a student whose only
+free hour falls outside the calendar will otherwise assume the program is not for them.
+
+## Adding content
+
+Everything editable lives in plain TypeScript. No CMS, no admin panel.
+
+| What | Where |
+| --- | --- |
+| Org facts, impact stats, countries | [`lib/site.ts`](lib/site.ts) |
+| Calendly URL, program formats, expectations, what we provide | [`lib/program.ts`](lib/program.ts) |
+| Co-presidents and chapter officers | [`lib/people.ts`](lib/people.ts) |
+| Navigation | [`lib/nav.ts`](lib/nav.ts) |
+
+### Leadership photos
+
+Save them as:
+
+```
+public/people/armaan-arya.png
+public/people/anay.png
+```
+
+Those exact paths are already referenced in `lib/people.ts`. Until the files exist, the
+`Avatar` component renders the person's initials — never a stock portrait or a broken image.
+Drop the files in and they appear automatically; no code change needed.
+
+### Chapter officers
+
+`CHAPTERS` in `lib/people.ts` is an empty array. Add one `Chapter` object per chapter, each
+with its own `officers`. The `/officers` page switches from its empty state to the directory
+automatically once the array is non-empty.
 
 ## The data honesty rule
 
@@ -50,26 +86,22 @@ Verified and hardcoded:
 - 7 years running
 - 4 countries — United States, Singapore, Vietnam, Spain
 - Founded at Valley Christian School; a program of Valley Christian Schools
+- Co-presidents Armaan Arya and Anay Sinhal, and their email addresses
 
 Deliberately absent until real values exist:
 
-- **Partner spotlight entries.** The `partners` table ships empty and the section renders a
-  written explanation instead of placeholder cards.
-- **Active chapter count.** Admin-editable. Until set, that stat tile does not render — there
-  is no zero, no dash, no "coming soon".
-- **Contact email and LinkedIn URL.** `lib/site.ts` holds `null` for both; the footer omits
-  each link rather than pointing somewhere dead.
-- **The playbook follow-up block.** Empty until the team pastes their real text.
+- **Chapter officers.** `CHAPTERS` is empty and `/officers` says so in plain words rather than
+  showing example students.
+- **Leadership photos.** Initials until the real files are added.
+- **LinkedIn URL.** `lib/site.ts` holds `null`; the footer omits the link rather than pointing
+  somewhere dead.
 
-`lib/site.ts` is the normative list. If you add a claim there, it needs a source.
+If you add a claim to `lib/site.ts`, it needs a source.
 
-## Security notes
+## Notes
 
-- RLS on every table; users can only reach their own rows.
-- Admin status is a database column, checked server-side. Admin API routes re-check
-  independently of the page guard — a layout redirect means nothing to a `fetch()`.
-- `lib/supabase/admin.ts` is `server-only`; the service-role key cannot reach the browser.
-- All auth-gated routes are `force-dynamic` so an auth check can never be compiled away by
-  static prerendering.
-- Double-booking is prevented by a database unique index, not by application logic.
-- CSP and security headers are set in `next.config.js`; no `unsafe-eval` in production.
+- Security headers and a strict CSP are set in [`next.config.js`](next.config.js). No
+  third-party origins are permitted — `img-src` is `'self' data:` and `connect-src` is
+  `'self'`.
+- Accessibility rules the components are built to are documented in
+  [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md).

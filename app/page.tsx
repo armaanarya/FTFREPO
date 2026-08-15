@@ -1,33 +1,12 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ButtonLink } from '@/components/ui/button'
 import { Section, SectionHeading } from '@/components/ui/section'
-import { PartnerSpotlight } from '@/components/site/partner-spotlight'
-import { getActiveChapterCount } from '@/lib/data'
-import { COUNTRIES, HOW_IT_WORKS, SITE, STATS } from '@/lib/site'
+import { BookACall } from '@/components/ui/calendly'
+import { COUNTRIES, SITE, STATS } from '@/lib/site'
+import { HOW_IT_WORKS, PROGRAM_FORMATS } from '@/lib/program'
 
-/**
- * Revalidate rather than force-dynamic: this page is public and cacheable, but
- * it renders admin-managed content (spotlight entries, the chapter count), so a
- * permanent build-time snapshot would hide edits until the next deploy.
- */
-export const revalidate = 60
-
-
-export default async function HomePage() {
-  // Only rendered if an admin has set a real number. See docs/SPEC.md.
-  const activeChapters = await getActiveChapterCount()
-
-  const stats = activeChapters
-    ? [
-        ...STATS,
-        {
-          value: activeChapters,
-          label: 'Active chapters',
-          detail: 'Chapters currently running programs.',
-        },
-      ]
-    : STATS
-
+export default function HomePage() {
   return (
     <>
       {/* ---------------------------------------------------------------- Hero */}
@@ -35,7 +14,15 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-content items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
           <div>
             <p className="font-display text-xs font-bold uppercase tracking-[0.1em] text-green-cta">
-              A program of {SITE.parentOrg}
+              A program of{' '}
+              <a
+                href={SITE.parentOrgUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-green-800"
+              >
+                {SITE.parentOrg}
+              </a>
             </p>
             <h1 className="mt-4 font-display text-4xl font-extrabold text-ink-900 sm:text-5xl lg:text-6xl">
               Helping young people build{' '}
@@ -48,60 +35,66 @@ export default async function HomePage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/apply" size="lg">
-                Start a chapter
-              </ButtonLink>
-              <ButtonLink href="/book" variant="secondary" size="lg">
-                Book a demo
+              <BookACall showNote={false} />
+              <ButtonLink href="/get-started" variant="secondary" size="lg">
+                See what&rsquo;s involved
               </ButtonLink>
             </div>
 
-            <p className="mt-5 text-sm text-ink-500">
-              Open to middle and high school students. Administrators and faculty are welcome
-              to book a call too.
+            <p className="mt-5 max-w-prose text-sm text-ink-500">
+              No application form and no account needed. Open to middle and high school
+              students; administrators and faculty are welcome to book a call too.
             </p>
           </div>
 
-          {/* This column used to repeat the logo already sitting in the nav.
-              For the administrator audience it is the most valuable space on
-              the page, so it now answers the two questions they actually have:
-              what gets taught, and where this already runs. */}
+          {/* Answers the two questions an administrator actually has: what gets
+              taught, and where this already runs. */}
           <aside
             aria-labelledby="hero-aside-heading"
             className="rounded-card border border-beige-200 bg-beige-50 p-6 sm:p-8"
           >
             <div className="flex items-center gap-3">
-              <Image src="/ftf-mark.svg" alt="" width={132} height={108} priority className="h-11 w-auto" />
+              <Image
+                src="/ftf-mark.svg"
+                alt=""
+                width={132}
+                height={108}
+                priority
+                className="h-11 w-auto"
+              />
               <h2 id="hero-aside-heading" className="font-display text-lg font-bold text-ink-900">
                 What chapters teach
               </h2>
             </div>
 
             <ul className="mt-5 space-y-2.5">
-              {['Budgeting that survives a real month', 'Saving and setting goals', 'How credit works, and how it breaks', 'Planning for costs that are coming'].map(
-                (topic) => (
-                  <li key={topic} className="flex gap-2.5 text-ink-700">
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      aria-hidden="true"
-                      className="mt-1 shrink-0 text-green-cta"
-                    >
-                      <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.8" />
-                      <path
-                        d="M6 10.5l2.5 2.5L14 7.5"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    {topic}
-                  </li>
-                ),
-              )}
+              {[
+                'Budgeting that survives a real month',
+                'Saving and setting goals',
+                'How credit works, and how it breaks',
+                'Planning for costs that are coming',
+              ].map((topic) => (
+                <li key={topic} className="flex gap-2.5 text-ink-700">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    aria-hidden="true"
+                    className="mt-1 shrink-0 text-green-cta"
+                  >
+                    <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.8" />
+                    <path
+                      d="M6 10.5l2.5 2.5L14 7.5"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {topic}
+                </li>
+              ))}
             </ul>
 
             <div className="mt-6 border-t border-beige-200 pt-5">
@@ -123,11 +116,11 @@ export default async function HomePage() {
           <h2 id="impact-heading" className="sr-only">
             Our impact
           </h2>
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3">
             {/* `order` puts the number above its label visually while keeping
                 dt-before-dd in the DOM, so the value is never announced without
-                the thing it measures. No sr-only duplication. */}
-            {stats.map((stat) => (
+                the thing it measures. */}
+            {STATS.map((stat) => (
               <div key={stat.label} className="flex flex-col">
                 <dt className="order-2 mt-2 font-semibold text-white">{stat.label}</dt>
                 <dd className="tabular order-1 font-display text-4xl font-extrabold leading-none text-white sm:text-5xl">
@@ -176,23 +169,50 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* ------------------------------------------------------------ Spotlight */}
-      <PartnerSpotlight />
+      {/* ------------------------------------------------------------ Formats */}
+      <Section id="formats" tone="beige">
+        <SectionHeading
+          eyebrow="Two formats"
+          title="Run a course, or run one deep workshop"
+          lede="Every chapter picks the shape that fits its school and schedule. Both use the same curriculum and get the same support."
+        />
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          {PROGRAM_FORMATS.map((format) => (
+            <div
+              key={format.id}
+              className="flex flex-col rounded-card border border-beige-200 bg-white p-7 shadow-sm"
+            >
+              <p className="font-display text-xs font-bold uppercase tracking-[0.1em] text-green-cta">
+                {format.shape}
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-extrabold text-ink-900">
+                {format.name}
+              </h3>
+              <p className="mt-4 text-ink-600">{format.body}</p>
+              <p className="mt-auto pt-5 text-sm font-semibold text-ink-900">{format.bestFor}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8">
+          <ButtonLink href="/get-started#formats" variant="secondary">
+            Compare the two formats
+          </ButtonLink>
+        </div>
+      </Section>
 
       {/* --------------------------------------------------------- How it works */}
       <Section id="how-it-works">
         <SectionHeading
           eyebrow="How it works"
           title="Four steps to your own chapter"
-          lede="Most founders go from first application to first class in a single school term."
+          lede="Most founders go from first call to first class in a single school term."
         />
 
         <ol className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HOW_IT_WORKS.map((step) => (
-            <li
-              key={step.step}
-              className="rounded-card border border-line bg-white p-6 shadow-sm"
-            >
+            <li key={step.step} className="rounded-card border border-line bg-white p-6 shadow-sm">
               <span
                 aria-hidden="true"
                 className="flex h-10 w-10 items-center justify-center rounded-chip bg-green-100 font-display text-lg font-extrabold text-green-800"
@@ -208,13 +228,21 @@ export default async function HomePage() {
           ))}
         </ol>
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          <ButtonLink href="/apply" size="lg">
-            Start a chapter
-          </ButtonLink>
-          <ButtonLink href="/book" variant="secondary" size="lg">
-            Book a demo
-          </ButtonLink>
+        <div className="mt-10 rounded-card border border-line bg-beige-50 p-7 sm:p-8">
+          <h3 className="font-display text-xl font-extrabold text-ink-900">
+            Ready to talk it through?
+          </h3>
+          <p className="mt-2 max-w-prose text-ink-600">
+            Thirty minutes, no commitment. Or read{' '}
+            <Link
+              href="/get-started"
+              className="font-semibold text-green-cta underline underline-offset-2 hover:text-green-800"
+            >
+              what we ask of chapter founders
+            </Link>{' '}
+            first.
+          </p>
+          <BookACall className="mt-6" />
         </div>
       </Section>
     </>

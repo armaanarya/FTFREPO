@@ -18,10 +18,12 @@ const securityHeaders = [
       `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self'",
-      // Partner spotlight photos are admin-entered URLs, so remote images must be
-      // permitted. Restricted to https to prevent mixed content.
-      "img-src 'self' data: https:",
-      `connect-src 'self' https://*.supabase.co${isDev ? ' ws:' : ''}`,
+      // Portraits are self-hosted under /public. Kept to 'self' + data: so a
+      // remote image can never be pulled in without an explicit policy change.
+      "img-src 'self' data:",
+      // No third-party origins: booking is a plain outbound link to Calendly,
+      // not an embedded widget, so nothing is fetched cross-origin at runtime.
+      `connect-src 'self'${isDev ? ' ws:' : ''}`,
       "object-src 'none'",
       "frame-ancestors 'none'",
       "base-uri 'self'",
@@ -32,9 +34,6 @@ const securityHeaders = [
 
 const nextConfig = {
   turbopack: { root: __dirname },
-  images: {
-    remotePatterns: [{ protocol: 'https', hostname: '**' }],
-  },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },

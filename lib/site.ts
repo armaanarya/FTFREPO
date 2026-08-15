@@ -15,8 +15,12 @@ export const SITE = {
   parentOrgUrl: 'https://vcs.net',
   foundedAt: 'Valley Christian School',
 
-  /** Contact + social. null until the team supplies the real value. */
-  contactEmail: null as string | null,
+  /**
+   * Contact. Both addresses are real and belong to the co-presidents — see
+   * lib/people.ts, which is the source of truth for who is reachable where.
+   * `linkedinUrl` stays null until the team supplies the real page URL; the
+   * footer omits the link entirely rather than pointing somewhere dead.
+   */
   linkedinUrl: null as string | null,
 } as const
 

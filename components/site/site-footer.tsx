@@ -2,6 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FOOTER_LINKS } from '@/lib/nav'
 import { SITE } from '@/lib/site'
+import { LEADERSHIP } from '@/lib/people'
+import { CALENDLY_URL } from '@/lib/program'
 
 export function SiteFooter() {
   return (
@@ -47,8 +49,28 @@ export function SiteFooter() {
                 Contact
               </h2>
               <ul className="mt-3 space-y-1">
-                {/* Rendered only when the real value exists. A placeholder
-                    mailto or a dead LinkedIn link is worse than no link. */}
+                {LEADERSHIP.map((person) => (
+                  <li key={person.email}>
+                    <a
+                      href={`mailto:${person.email}`}
+                      className="flex min-h-[36px] items-center break-all text-sm text-ink-600 transition-colors duration-150 hover:text-green-800 hover:underline"
+                    >
+                      {person.email}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href={CALENDLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-[36px] items-center text-sm font-semibold text-green-cta transition-colors duration-150 hover:text-green-800 hover:underline"
+                  >
+                    Book a call
+                  </a>
+                </li>
+                {/* Rendered only when a real URL exists — a dead LinkedIn link
+                    is worse than no link. */}
                 {SITE.linkedinUrl && (
                   <li>
                     <a
@@ -61,16 +83,6 @@ export function SiteFooter() {
                         <path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
                       </svg>
                       LinkedIn
-                    </a>
-                  </li>
-                )}
-                {SITE.contactEmail && (
-                  <li>
-                    <a
-                      href={`mailto:${SITE.contactEmail}`}
-                      className="flex min-h-[36px] items-center text-sm text-ink-600 transition-colors duration-150 hover:text-green-800 hover:underline"
-                    >
-                      {SITE.contactEmail}
                     </a>
                   </li>
                 )}
@@ -92,8 +104,16 @@ export function SiteFooter() {
         {/* Nonprofit disclosure */}
         <div className="mt-12 border-t border-beige-200 pt-6">
           <p className="max-w-prose text-xs leading-relaxed text-ink-500">
-            {SITE.name} is a student-led financial literacy program of {SITE.parentOrg}, a
-            nonprofit organization. We teach foundational financial skills for educational
+            {SITE.name} is a student-led financial literacy program of{' '}
+            <a
+              href={SITE.parentOrgUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-green-800"
+            >
+              {SITE.parentOrg}
+            </a>
+            , a nonprofit organization. We teach foundational financial skills for educational
             purposes only. Nothing we publish or teach is investment, tax, or legal advice.
           </p>
           <p className="mt-4 text-xs text-ink-500">

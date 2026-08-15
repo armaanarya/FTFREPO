@@ -14,9 +14,7 @@ export type NavGroup = {
 /**
  * Primary navigation. Groups with `items` render as dropdowns.
  *
- * Kept flat and short on purpose — an overloaded nav is the most common way a
- * site like this becomes hard for a 12-year-old and a school principal to use
- * at the same time.
+ * Every destination is public — there is no sign-in anywhere on this site.
  */
 export const NAV: NavGroup[] = [
   {
@@ -28,41 +26,39 @@ export const NAV: NavGroup[] = [
         description: 'How Financing the Future started and where it runs today.',
       },
       {
-        label: 'How it works',
-        href: '/#how-it-works',
-        description: 'The four steps from applying to launching your chapter.',
+        label: 'Program formats',
+        href: '/get-started#formats',
+        description: 'A 6–8 week course, or a single two-hour deep dive.',
       },
       {
-        label: 'Global spotlight',
-        href: '/#spotlight',
-        description: 'Chapter leaders and the work they are doing.',
+        label: 'How it works',
+        href: '/#how-it-works',
+        description: 'The four steps from first call to your first class.',
       },
     ],
   },
   {
-    label: 'Get started',
+    label: 'Start a chapter',
     items: [
       {
-        label: 'Start a chapter',
-        href: '/apply',
-        description: 'Apply to bring a chapter to your school or community.',
+        label: 'Get started',
+        href: '/get-started',
+        description: 'What we ask of you, and what we provide in return.',
       },
       {
-        label: 'Book a demo',
-        href: '/book',
-        description: 'Talk to our team about the program.',
-      },
-      {
-        label: 'Launch playbook',
-        href: '/playbook',
-        description: 'What happens in your launch meeting, and what to prepare.',
+        label: 'What we provide',
+        href: '/get-started#what-we-provide',
+        description: 'Curriculum, outreach guidance, LinkedIn, and graphics.',
       },
     ],
   },
-  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Chapter officers', href: '/officers' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 /** Shown in the footer. Flattened from NAV so the two can never drift. */
 export const FOOTER_LINKS = NAV.flatMap((group) =>
-  group.items ? group.items.map(({ label, href }) => ({ label, href })) : [{ label: group.label, href: group.href! }],
+  group.items
+    ? group.items.map(({ label, href }) => ({ label, href }))
+    : [{ label: group.label, href: group.href! }],
 )

@@ -133,11 +133,22 @@ tweaks to be compliant.
 - `data-field` prop exists solely as a focus hook — TypeScript will not accept arbitrary
   `data-*` on a custom component, so it is declared explicitly.
 
-### StatusBadge (`components/ui/status-badge.tsx`)
+### Avatar (`components/ui/avatar.tsx`)
 
-Four application states. **Each carries a text label *and* a distinct icon shape** — inbox,
-calendar, checklist, filled check. The badge stays readable in greyscale, in forced-colours
-mode, and to anyone who cannot separate the hues. Colour is reinforcement, never the message.
+Portrait with an **initials fallback**. If the image is missing or fails to load it renders the
+person's initials, never a stock portrait or a broken-image icon. This is what lets
+`lib/people.ts` reference photo paths that do not exist yet — drop the file in and it appears.
+
+### BookACall (`components/ui/calendly.tsx`)
+
+The single booking CTA, used on every page. A plain outbound link rather than an embedded
+widget, so the CSP can stay free of third-party origins and no tracking cookie is set on
+visitors who merely scroll past.
+
+It renders `SCHEDULING_NOTE` alongside the button by default. Suppress it with
+`showNote={false}` only where the note already appears nearby — never because the layout is
+tight. A student whose free hour falls outside the published slots needs to be told they can
+still reach us.
 
 ### NavBar (`components/site/nav-bar.tsx`)
 
@@ -177,17 +188,12 @@ Two visual treatments, applied consistently:
 - **Solid border + white** — public-facing, where the empty state is the message
 - **Dashed border + beige-50** — signed-in surfaces, where it reads as "nothing here yet"
 
-### Destructive confirmation
+### External links
 
-Never destroy on a single click. The trigger swaps to an inline confirm/cancel pair, and the
-component **must** focus the confirm control on appearance. Used in `BookingCard`,
-`PartnerManager`, and `SlotManager` — all three share the same `useEffect` focus hook.
-
-### Progress
-
-Always a bar **and** a text equivalent (`3 of 4 complete`), with
-`role="progressbar"` + `aria-valuetext`. A bar alone communicates nothing to a screen reader
-or in high-contrast mode.
+Anything leaving the site (Calendly, vcs.net, mailto) opens with `rel="noopener noreferrer"`
+and carries an `sr-only` note where the destination is not obvious from the link text — e.g.
+"(opens Calendly in a new tab)". A sighted user sees the arrow glyph; a screen-reader user
+gets the same warning in words.
 
 ---
 
@@ -201,21 +207,18 @@ These are not aspirations; they were audited and are currently true.
 | Form control borders ≥3:1 | `--border-strong`, 27% margin |
 | 44px minimum tap target | `Button` sizes, nav/footer link padding |
 | Visible focus on **every** focusable element | Global `:focus-visible`; `.on-green` inverts it |
-| Visually-hidden radios get focus styling on the **label** | `has-[:focus-visible]` in `SlotPicker` |
-| Failed validation moves focus to the first bad field | `focusFirstError` in the application form |
-| Inline confirms take focus | `confirmRef` pattern, 3 components |
 | `Escape` closes menus and restores focus | `NavBar`, desktop dropdowns and mobile panel |
 | Skip link actually moves focus | `<main tabIndex={-1}>` |
-| Status never signalled by colour alone | `StatusBadge` icons; error icons |
+| Meaning never signalled by colour alone | Icons paired with text throughout |
 | `prefers-reduced-motion` honoured | Global media query |
-| Wide content scrolls inside its own container | Admin tables — the body never scrolls sideways |
+| Wide content scrolls inside its own container | The page body never scrolls sideways at any breakpoint |
 
 ### The trap worth remembering
 
-A visually-hidden `<input type="radio">` inside a styled `<label>` is a common and attractive
-pattern — and it silently destroys the focus indicator, because the focused element is the one
-you hid. The label must carry the ring via `has-[:focus-visible]`. This shipped broken and was
-caught in audit; do not reintroduce it.
+A visually-hidden `<input>` inside a styled `<label>` is a common and attractive pattern — and
+it silently destroys the focus indicator, because the focused element is the one you hid. The
+label must carry the ring via `has-[:focus-visible]`. This shipped broken once and was caught
+in audit; do not reintroduce it if form controls come back.
 
 ---
 

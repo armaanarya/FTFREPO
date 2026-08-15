@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { NAV, type NavGroup } from '@/lib/nav'
-import type { Profile } from '@/lib/types'
+import { CALENDLY_URL } from '@/lib/program'
 import { cn } from '@/lib/utils'
 
 /**
@@ -26,7 +26,7 @@ import { cn } from '@/lib/utils'
  *   Tab                        close and let focus leave naturally
  * Hover opens the menu too, but hover is never the only way in.
  */
-export function NavBar({ profile }: { profile: Profile | null }) {
+export function NavBar() {
   const pathname = usePathname()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -297,30 +297,17 @@ export function NavBar({ profile }: { profile: Profile | null }) {
           })}
         </ul>
 
-        {/* Account / CTA */}
+        {/* Booking CTA. No account controls — the site has no sign-in. */}
         <div className="ml-auto flex items-center gap-2 lg:ml-4">
-          {profile ? (
-            <>
-              <span className="hidden max-w-[180px] truncate text-sm text-ink-500 xl:block">
-                {profile.full_name ?? profile.email}
-              </span>
-              <form action="/auth/signout" method="post">
-                <button
-                  type="submit"
-                  className="flex h-10 items-center rounded-ctl border border-line-strong px-4 text-sm font-semibold text-ink-700 transition-colors duration-150 hover:bg-beige-50"
-                >
-                  Sign out
-                </button>
-              </form>
-            </>
-          ) : (
-            <Link
-              href="/apply"
-              className="on-green hidden h-10 items-center rounded-ctl bg-green-cta px-4 text-sm font-semibold text-white transition-colors duration-150 hover:bg-green-800 sm:flex"
-            >
-              Start a chapter
-            </Link>
-          )}
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="on-green hidden h-10 items-center rounded-ctl bg-green-cta px-4 text-sm font-semibold text-white transition-colors duration-150 hover:bg-green-800 sm:flex"
+          >
+            Book a call
+            <span className="sr-only"> (opens Calendly in a new tab)</span>
+          </a>
 
           {/* Mobile toggle */}
           <button
@@ -394,16 +381,17 @@ export function NavBar({ profile }: { profile: Profile | null }) {
               </li>
             ))}
           </ul>
-          {!profile && (
-            <div className="px-4 pb-4 sm:px-6">
-              <Link
-                href="/apply"
-                className="on-green flex min-h-[44px] items-center justify-center rounded-ctl bg-green-cta px-4 font-semibold text-white"
-              >
-                Start a chapter
-              </Link>
-            </div>
-          )}
+          <div className="px-4 pb-4 sm:px-6">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="on-green flex min-h-[44px] items-center justify-center rounded-ctl bg-green-cta px-4 font-semibold text-white"
+            >
+              Book a call
+              <span className="sr-only"> (opens Calendly in a new tab)</span>
+            </a>
+          </div>
         </div>
       )}
     </header>
