@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Section, SectionHeading } from '@/components/ui/section'
-import { BookACall } from '@/components/ui/calendly'
+import { BookACall, SchedulingNote } from '@/components/ui/calendly'
+import { SignUpFormButton } from '@/components/ui/signup-form-button'
 import { FOUNDER_EXPECTATIONS, PROGRAM_FORMATS, WHAT_WE_PROVIDE } from '@/lib/program'
 
 export const metadata: Metadata = {
@@ -22,7 +23,11 @@ export default function GetStartedPage() {
             through the whole thing together. Everything below is what we will cover — reading
             it first means we can spend the call planning instead of explaining.
           </p>
-          <BookACall className="mt-8" />
+          <div className="mt-8 flex flex-wrap items-start gap-3">
+            <BookACall showNote={false} />
+            <SignUpFormButton showFallback={false} />
+          </div>
+          <SchedulingNote className="mt-5" />
         </div>
       </section>
 

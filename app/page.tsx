@@ -2,7 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ButtonLink } from '@/components/ui/button'
 import { Section, SectionHeading } from '@/components/ui/section'
-import { BookACall } from '@/components/ui/calendly'
+import { BookACall, SchedulingNote } from '@/components/ui/calendly'
+import { SignUpFormButton } from '@/components/ui/signup-form-button'
 import { COUNTRIES, SITE, STATS } from '@/lib/site'
 import { HOW_IT_WORKS, PROGRAM_FORMATS } from '@/lib/program'
 
@@ -34,17 +35,19 @@ export default function HomePage() {
               credit, and planning — to other students in their own communities.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-start gap-3">
               <BookACall showNote={false} />
+              <SignUpFormButton showFallback={false} />
               <ButtonLink href="/get-started" variant="secondary" size="lg">
                 See what&rsquo;s involved
               </ButtonLink>
             </div>
 
             <p className="mt-5 max-w-prose text-sm text-ink-500">
-              No application form and no account needed. Open to middle and high school
-              students; administrators and faculty are welcome to book a call too.
+              No account needed. Open to middle and high school students; administrators and
+              faculty are welcome to book a call too.
             </p>
+            <SchedulingNote className="mt-3" />
           </div>
 
           {/* Answers the two questions an administrator actually has: what gets

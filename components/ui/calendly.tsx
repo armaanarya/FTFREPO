@@ -45,23 +45,34 @@ export function BookACall({
         <span className="sr-only">(opens Calendly in a new tab)</span>
       </ButtonLink>
 
-      {showNote && (
-        <p className="mt-4 max-w-prose text-sm text-ink-600">
-          {SCHEDULING_NOTE}{' '}
-          {LEADERSHIP.map((person, index) => (
-            <span key={person.email}>
-              <a
-                href={`mailto:${person.email}`}
-                className="font-semibold text-green-cta underline underline-offset-2 hover:text-green-800"
-              >
-                {person.email}
-              </a>
-              {index < LEADERSHIP.length - 1 ? ' or ' : ''}
-            </span>
-          ))}
-          .
-        </p>
-      )}
+      {showNote && <SchedulingNote className="mt-4" />}
     </div>
+  )
+}
+
+/**
+ * The "these are not the only times" note, on its own.
+ *
+ * Split out so a layout can place the booking button beside other CTAs and
+ * still carry the note underneath the whole row, instead of rendering a second
+ * booking button just to get the text.
+ */
+export function SchedulingNote({ className }: { className?: string }) {
+  return (
+    <p className={cn('max-w-prose text-sm text-ink-600', className)}>
+      {SCHEDULING_NOTE}{' '}
+      {LEADERSHIP.map((person, index) => (
+        <span key={person.email}>
+          <a
+            href={`mailto:${person.email}`}
+            className="font-semibold text-green-cta underline underline-offset-2 hover:text-green-800"
+          >
+            {person.email}
+          </a>
+          {index < LEADERSHIP.length - 1 ? ' or ' : ''}
+        </span>
+      ))}
+      .
+    </p>
   )
 }

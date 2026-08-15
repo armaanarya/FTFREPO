@@ -8,6 +8,20 @@
 export const CALENDLY_URL = 'https://calendly.com/anay13366/30min'
 
 /**
+ * FTF sign-up Google Form.
+ *
+ * TO ACTIVATE: replace `null` with the form URL, e.g.
+ *   export const SIGNUP_FORM_URL: string | null = 'https://forms.gle/xxxxxxxx'
+ * That is the only change needed — every sign-up button on the site switches
+ * from its "opening soon" state to a live link automatically.
+ *
+ * While this is null the button still renders so the layout is final, but it is
+ * disabled and labelled honestly. A button that looks live and goes nowhere is
+ * a dead end for a real visitor, and this site is public.
+ */
+export const SIGNUP_FORM_URL: string | null = null
+
+/**
  * Shown next to every Calendly link. The times on the calendar are not the only
  * times available and founders should not self-select out because of a
  * timezone or a school schedule.
